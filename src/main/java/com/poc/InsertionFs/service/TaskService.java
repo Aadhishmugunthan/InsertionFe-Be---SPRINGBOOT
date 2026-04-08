@@ -31,4 +31,27 @@ public class TaskService {
 
         repository.deleteById(id);
     }
+
+    public Task updateTask(Long id, Task updatedTask) {
+
+        Task task = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        task.setTitle(updatedTask.getTitle());
+        task.setDescription(updatedTask.getDescription());
+        task.setCompleted(updatedTask.getCompleted());
+
+        return repository.save(task);
+    }
+    public Task toggleTask(Long id) {
+
+        Task task = repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Task not found"));
+
+        // TOGGLE BOOLEAN
+        task.setCompleted(!task.getCompleted());
+
+        return repository.save(task);
+    }
 }
